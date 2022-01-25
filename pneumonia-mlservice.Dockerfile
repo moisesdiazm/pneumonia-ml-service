@@ -1,4 +1,4 @@
-FROM python
+FROM tensorflow/tensorflow
 
 ADD requirements.txt requirements.txt
 
