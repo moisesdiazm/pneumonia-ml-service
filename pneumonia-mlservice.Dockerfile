@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow
+FROM ubuntu
 
 ADD requirements.txt requirements.txt
 
