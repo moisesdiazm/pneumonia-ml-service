@@ -4,9 +4,10 @@ import numpy as np
 
 os.environ['KERAS_BACKEND'] = 'theano'
 
-from keras.models import model_from_json
-from keras.preprocessing.image import img_to_array
-from keras.applications import imagenet_utils
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.applications import imagenet_utils
+
 
 class KerasModel():
 

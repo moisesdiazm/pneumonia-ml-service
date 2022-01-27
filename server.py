@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 from predictive_model.query_model import KerasModel
 
 app = Flask(__name__)
-app.config['UPLOAD_PATH'] = os.getcwd() + "/temporal"
+app.config['UPLOAD_PATH'] = "/temporal"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 pneumonia_predictor = KerasModel(os.getcwd() + "/predictive_model/model.json", os.getcwd() + "/predictive_model/model.h5")
 
@@ -11,15 +11,17 @@ pneumonia_predictor = KerasModel(os.getcwd() + "/predictive_model/model.json", o
 def analyze():
     images = []
     for filename,f in request.files.items():
-        image_path = os.path.join(app.config['UPLOAD_PATH'], filename)
-        f.save(image_path)
-        images.append(image_path)
+        if filename:
+          image_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+          f.save(image_path)
+          images.append(image_path)
     
     result = pneumonia_predictor.predict_multiple(images)
     
     for filename,f in request.files.items():
-        image_path = os.path.join(app.config['UPLOAD_PATH'], filename)
-        os.remove(image_path)
+        if filename:
+          image_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+          os.remove(image_path)
 
     return jsonify({'results': list(result)})
 
